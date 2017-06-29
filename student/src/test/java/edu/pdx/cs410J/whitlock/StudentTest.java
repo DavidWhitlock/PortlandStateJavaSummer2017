@@ -15,11 +15,21 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class StudentTest
 {
 
+  private Student getStudentNamed(String name) {
+    return new Student(name, new ArrayList(), 0.0, "Doesn't matter");
+  }
+
   @Test
   public void studentNamedPatIsNamedPat() {
     String name = "Pat";
-    Student pat = new Student(name, new ArrayList(), 0.0, "Doesn't matter");
+    Student pat = getStudentNamed(name);
     assertThat(pat.getName(), equalTo(name));
+  }
+
+  @Test
+  public void allStudentsSayThisClassIsTooMuchWork() {
+    Student student = getStudentNamed("Name");
+    assertThat(student.says(), equalTo("This class is too much work"));
   }
 
 }
