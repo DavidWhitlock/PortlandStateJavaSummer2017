@@ -2,6 +2,7 @@ package edu.pdx.cs410J.whitlock;
 
 import edu.pdx.cs410J.lang.Human;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**                                                                                 
@@ -100,7 +101,23 @@ public class Student extends Human {
    * standard out by invoking its <code>toString</code> method.
    */
   public static void main(String[] args) {
-    System.err.println("Missing command line arguments");
-    System.exit(1);
+    if (args.length == 0) {
+      System.err.println("Missing command line arguments");
+      System.exit(1);
+    }
+
+    String name = args[0];
+    String gender = args[1];
+    double gpa = Double.parseDouble(args[2]);
+
+    List<String> classes = new ArrayList<>();
+    for (int i = 3; i < args.length; i++) {
+      classes.add(args[i]);
+    }
+
+    Student student = new Student(name, classes, gpa, gender);
+    System.out.println(student.toString());
+
+    System.exit(0);
   }
 }
