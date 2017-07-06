@@ -3,7 +3,8 @@ package edu.pdx.cs410J.whitlock;
 import edu.pdx.cs410J.lang.Human;
 
 import java.util.ArrayList;
-                                                                                    
+import java.util.List;
+
 /**                                                                                 
  * This class is represents a <code>Student</code>.                                 
  */                                                                                 
@@ -13,6 +14,7 @@ public class Student extends Human {
   static final String FEMALE = "female";
   private final String gender;
   private final double gpa;
+  private final List classes;
 
   /**
    * Creates a new <code>Student</code>                                             
@@ -32,6 +34,7 @@ public class Student extends Human {
 
     this.gender = gender;
     this.gpa = gpa;
+    this.classes = classes;
   }
 
   /**                                                                               
@@ -47,8 +50,21 @@ public class Student extends Human {
    * <code>Student</code>.                                                          
    */                                                                               
   public String toString() {
-    return this.name + " has a GPA of " + this.gpa + ".  " +
+    return this.name + " has a GPA of " + this.gpa + " and is taking " +
+      getNumberOfClasses() +
       getGenderPronoun() + " says \"" + says() + "\".";
+  }
+
+  private String getNumberOfClasses() {
+    if (this.classes.isEmpty()) {
+      return "no classes.";
+
+    } else if (this.classes.size() == 1) {
+      return "1 class:";
+
+    } else {
+      return this.classes.size() + " classes:";
+    }
   }
 
   private String getGenderPronoun() {

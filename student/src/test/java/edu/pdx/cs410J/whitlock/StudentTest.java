@@ -82,4 +82,33 @@ public class StudentTest
     Student student = new Student("name", new ArrayList(), gpa, Student.FEMALE);
     assertThat(student.toString(), containsString("has a GPA of " + gpa));
   }
+
+  @Test
+  public void numberOfClassesAreIncludedInToString() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Class1");
+    classes.add("Class2");
+    classes.add("Class3");
+    Student student = new Student("name", classes, 3.45, Student.FEMALE);
+    assertThat(student.toString(),
+               containsString("is taking 3 classes:"));
+  }
+
+  @Test
+  public void studentTakingZeroClassesIsValid() {
+    ArrayList<String> classes = new ArrayList<>();
+    Student student = new Student("name", classes, 3.45, Student.FEMALE);
+    assertThat(student.toString(),
+               containsString("is taking no classes."));
+  }
+
+  @Test
+  public void studentTakingOneClass() {
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Class1");
+    Student student = new Student("name", classes, 3.45, Student.FEMALE);
+    assertThat(student.toString(),
+               containsString("is taking 1 class:"));
+  }
+
 }
