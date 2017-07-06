@@ -3,6 +3,8 @@ package edu.pdx.cs410J.whitlock;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -99,7 +101,7 @@ public class StudentTest
     ArrayList<String> classes = new ArrayList<>();
     Student student = new Student("name", classes, 3.45, Student.FEMALE);
     assertThat(student.toString(),
-               containsString("is taking no classes."));
+               containsString("is taking no classes.  "));
   }
 
   @Test
@@ -111,4 +113,50 @@ public class StudentTest
                containsString("is taking 1 class:"));
   }
 
+  @Test
+  public void toStringIncludeOneClassName() {
+    ArrayList<String> classes = new ArrayList<>();
+    String className = "Class1";
+    classes.add(className);
+    Student student = new Student("name", classes, 3.45, Student.FEMALE);
+    assertThat(student.toString(),
+               containsString("is taking 1 class: " + className + ".  "));
+  }
+
+  @Test
+  public void toStringIncludeTwoClassNames() {
+    ArrayList<String> classes = new ArrayList<>();
+    String class1 = "Class1";
+    classes.add(class1);
+    String class2 = "Class2";
+    classes.add(class2);
+
+    Student student = new Student("name", classes, 3.45, Student.FEMALE);
+    assertThat(student.toString(),
+               containsString("is taking 2 classes: " + class1 + " and " + class2 + ".  "));
+  }
+
+  @Test
+  public void toStringIncludeThreeClassNames() {
+    ArrayList<String> classes = new ArrayList<>();
+    String class1 = "Class1";
+    classes.add(class1);
+    String class2 = "Class2";
+    classes.add(class2);
+    String class3 = "Class3";
+    classes.add(class3);
+
+    Student student = new Student("name", classes, 3.45, Student.FEMALE);
+    assertThat(student.toString(),
+               containsString("is taking 3 classes: " +
+                              class1 + ", " + class2 + ", and " + class3 + ".  "));
+  }
+
+  @Test
+  public void makeSureDaveFromAssignmentIsWhatWeExpect() {
+    List<String> classes = Arrays.asList("Algorithms", "Operating Systems", "Java");
+    Student dave = new Student("Dave", classes, 3.64, Student.MALE);
+    assertThat(dave.toString(), equalTo("Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating " +
+      "Systems, and Java.  He says \"This class is too much work\"."));
+  }
 }

@@ -2,7 +2,6 @@ package edu.pdx.cs410J.whitlock;
 
 import edu.pdx.cs410J.lang.Human;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**                                                                                 
@@ -14,7 +13,7 @@ public class Student extends Human {
   static final String FEMALE = "female";
   private final String gender;
   private final double gpa;
-  private final List classes;
+  private final List<String> classes;
 
   /**
    * Creates a new <code>Student</code>                                             
@@ -29,7 +28,7 @@ public class Student extends Human {
    * @param gender                                                                  
    *        The student's gender ("male" or "female", case insensitive)             
    */                                                                               
-  public Student(String name, ArrayList classes, double gpa, String gender) {
+  public Student(String name, List<String> classes, double gpa, String gender) {
     super(name);
 
     this.gender = gender;
@@ -51,19 +50,34 @@ public class Student extends Human {
    */                                                                               
   public String toString() {
     return this.name + " has a GPA of " + this.gpa + " and is taking " +
-      getNumberOfClasses() +
+      getNumberOfClasses() + ".  " +
       getGenderPronoun() + " says \"" + says() + "\".";
   }
 
   private String getNumberOfClasses() {
     if (this.classes.isEmpty()) {
-      return "no classes.";
+      return "no classes";
 
     } else if (this.classes.size() == 1) {
-      return "1 class:";
+      return "1 class: " + this.classes.get(0);
 
     } else {
-      return this.classes.size() + " classes:";
+      String phrase = this.classes.size() + " classes: ";
+
+      if (this.classes.size() == 2) {
+        phrase += this.classes.get(0) + " and " + this.classes.get(1);
+
+      } else {
+        for (int i = 0; i < classes.size() - 1; i++) {
+          String className = classes.get(i);
+          phrase += className;
+          phrase += ", ";
+        }
+
+        phrase += "and " + classes.get(classes.size() - 1);
+      }
+
+      return phrase;
     }
   }
 
