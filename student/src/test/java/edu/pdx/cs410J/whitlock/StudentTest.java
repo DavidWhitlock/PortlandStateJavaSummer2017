@@ -63,4 +63,10 @@ public class StudentTest
     }
   }
 
+  @Test
+  public void toStringContainsSaysThisClassIsTooMuchWork() {
+    Student student = getStudentWithGender("female");
+    assertThat(student.toString(), containsString("says \"This class is too much work\"."));
+  }
+
 }

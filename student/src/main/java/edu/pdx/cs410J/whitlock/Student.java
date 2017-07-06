@@ -45,13 +45,19 @@ public class Student extends Human {
    * <code>Student</code>.                                                          
    */                                                                               
   public String toString() {
-    if (this.gender.equals(MALE)) {
-      return "He says";
-    } else if (this.gender.equals(FEMALE)) {
-      return "She says";
+    return getGenderPronoun() + " says \"" + says() + "\".";
+  }
 
-    } else {
-      throw new UnknownGenderException(this.gender);
+  private String getGenderPronoun() {
+    switch (this.gender) {
+      case MALE:
+        return "He";
+
+      case FEMALE:
+        return "She";
+
+      default:
+        throw new UnknownGenderException(this.gender);
     }
   }
 
