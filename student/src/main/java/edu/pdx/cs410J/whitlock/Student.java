@@ -12,6 +12,7 @@ public class Student extends Human {
   static final String MALE = "male";
   static final String FEMALE = "female";
   private final String gender;
+  private final double gpa;
 
   /**
    * Creates a new <code>Student</code>                                             
@@ -30,6 +31,7 @@ public class Student extends Human {
     super(name);
 
     this.gender = gender;
+    this.gpa = gpa;
   }
 
   /**                                                                               
@@ -45,7 +47,8 @@ public class Student extends Human {
    * <code>Student</code>.                                                          
    */                                                                               
   public String toString() {
-    return getGenderPronoun() + " says \"" + says() + "\".";
+    return this.name + " has a GPA of " + this.gpa + ".  " +
+      getGenderPronoun() + " says \"" + says() + "\".";
   }
 
   private String getGenderPronoun() {

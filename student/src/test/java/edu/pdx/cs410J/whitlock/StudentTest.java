@@ -18,7 +18,7 @@ public class StudentTest
 {
 
   private Student getStudentNamed(String name) {
-    return new Student(name, new ArrayList(), 0.0, "Doesn't matter");
+    return new Student(name, new ArrayList(), 0.0, Student.MALE);
   }
 
   @Test
@@ -36,13 +36,13 @@ public class StudentTest
 
   @Test
   public void maleStudentHasMalePronoun() {
-    Student male = getStudentWithGender("male");
+    Student male = getStudentWithGender(Student.MALE);
     assertThat(male.toString(), containsString("He says"));
   }
 
   @Test
   public void femaleStudentHasFemalePronoun() {
-    Student female = getStudentWithGender("female");
+    Student female = getStudentWithGender(Student.FEMALE);
     assertThat(female.toString(), containsString("She says"));
   }
 
@@ -65,8 +65,21 @@ public class StudentTest
 
   @Test
   public void toStringContainsSaysThisClassIsTooMuchWork() {
-    Student student = getStudentWithGender("female");
+    Student student = getStudentWithGender(Student.FEMALE);
     assertThat(student.toString(), containsString("says \"This class is too much work\"."));
   }
 
+  @Test
+  public void nameOfStudentIsInToString() {
+    String name = "Dave";
+    Student dave = getStudentNamed(name);
+    assertThat(dave.toString(), containsString(name));
+  }
+
+  @Test
+  public void gpaOfStudentIsInToString() {
+    double gpa = 3.45;
+    Student student = new Student("name", new ArrayList(), gpa, Student.FEMALE);
+    assertThat(student.toString(), containsString("has a GPA of " + gpa));
+  }
 }
