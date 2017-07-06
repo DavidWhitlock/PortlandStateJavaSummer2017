@@ -33,6 +33,40 @@ public class StudentIT extends InvokeMainTestCase {
     String expected = "Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating " +
       "Systems, and Java.  He says \"This class is too much work\".\n";
     assertThat(result.getTextWrittenToStandardOut(), equalTo(expected));
+    assertThat(result.getTextWrittenToStandardError(), equalTo(""));
+  }
+
+  @Test
+  public void whenGpaIsNotADoubleExitsWithErrorMessageAndCode1() {
+    String invalidGpa = "BAD!!";
+    MainMethodResult result = invokeMain(Student.class, "Dave", "male", invalidGpa, "Algorithms", "Operating Systems", "Java");
+    assertThat(result.getExitCode(), equalTo(1));
+    assertThat(result.getTextWrittenToStandardError(), containsString(invalidGpa));
+  }
+
+  @Test
+  public void missingGenderExitsWithErrorMessageAndCode1() {
+    MainMethodResult result = invokeMain(Student.class, "Dave");
+    assertThat(result.getExitCode(), equalTo(1));
+    assertThat(result.getTextWrittenToStandardError(), containsString("Missing gender"));
+  }
+
+  @Test
+  public void unknownGenderExitsWithErrorMessageAndCode1() {
+    String unknownGender = "UNKNOWN";
+    MainMethodResult result = invokeMain(Student.class, "Dave", unknownGender, "3.64", "Algorithms", "Operating Systems", "Java");
+    assertThat(result.getExitCode(), equalTo(1));
+    assertThat(result.getTextWrittenToStandardError(), containsString("Unknown gender: " + unknownGender));
+  }
+
+  @Test
+  public void itsOkayToTakeZeroClasses() {
+    MainMethodResult result = invokeMain(Student.class, "Dave", "male", "3.64");
+    assertThat(result.getExitCode(), equalTo(0));
+
+    String expected = "Dave has a GPA of 3.64 and is taking no classes.  He says \"This class is too much work\".\n";
+    assertThat(result.getTextWrittenToStandardOut(), equalTo(expected));
+    assertThat(result.getTextWrittenToStandardError(), equalTo(""));
   }
 
 }

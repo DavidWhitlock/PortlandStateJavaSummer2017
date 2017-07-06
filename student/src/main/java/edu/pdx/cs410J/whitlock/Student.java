@@ -102,13 +102,16 @@ public class Student extends Human {
    */
   public static void main(String[] args) {
     if (args.length == 0) {
-      System.err.println("Missing command line arguments");
-      System.exit(1);
+      printErrorMessageAndExit("Missing command line arguments");
     }
 
     String name = args[0];
+
+    if (args.length < 2) {
+      printErrorMessageAndExit("Missing gender");
+    }
     String gender = args[1];
-    double gpa = Double.parseDouble(args[2]);
+    double gpa = parseGpa(args[2]);
 
     List<String> classes = new ArrayList<>();
     for (int i = 3; i < args.length; i++) {
@@ -116,8 +119,27 @@ public class Student extends Human {
     }
 
     Student student = new Student(name, classes, gpa, gender);
-    System.out.println(student.toString());
+    try {
+      System.out.println(student.toString());
+    } catch (UnknownGenderException ex) {
+      printErrorMessageAndExit("Unknown gender: " + ex.getUnknownGender());
+    }
 
     System.exit(0);
+  }
+
+  private static void printErrorMessageAndExit(String message) {
+    System.err.println(message);
+    System.exit(1);
+  }
+
+  private static double parseGpa(String gpa) {
+    try {
+      return Double.parseDouble(gpa);
+
+    } catch (NumberFormatException ex) {
+      printErrorMessageAndExit("Invalid GPA: " + gpa);
+      return Double.NaN;
+    }
   }
 }
