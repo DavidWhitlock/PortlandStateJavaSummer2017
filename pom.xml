@@ -12,7 +12,8 @@
   <version>Summer2017</version>
 
   <packaging>pom</packaging>
-  <name>Source code written in the Summer 2017 offering of Advanced Programming with Java</name>
+  <name>PSUJavaSummer2017</name>
+  <description>Source code written in the Summer 2017 offering of Advanced Programming with Java</description>
   <url>http://davidwhitlock.github.io/PortlandStateJavaSummer2017</url>
 
   <modules>
