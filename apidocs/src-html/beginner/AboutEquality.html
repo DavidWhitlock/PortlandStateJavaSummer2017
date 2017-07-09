@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package beginner;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import com.sandwich.koan.Koan;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>import static com.sandwich.koan.constant.KoanConstants.__;<a name="line.5"></a>
+<span class="sourceLineNo">006</span>import static com.sandwich.util.Assert.assertEquals;<a name="line.6"></a>
+<span class="sourceLineNo">007</span><a name="line.7"></a>
+<span class="sourceLineNo">008</span>public class AboutEquality {<a name="line.8"></a>
+<span class="sourceLineNo">009</span><a name="line.9"></a>
+<span class="sourceLineNo">010</span>    @Koan<a name="line.10"></a>
+<span class="sourceLineNo">011</span>    public void doubleEqualsTestsIfTwoObjectsAreTheSame() {<a name="line.11"></a>
+<span class="sourceLineNo">012</span>        Object object = new Object();<a name="line.12"></a>
+<span class="sourceLineNo">013</span>        Object sameObject = object;<a name="line.13"></a>
+<span class="sourceLineNo">014</span>        assertEquals(object == sameObject, __);<a name="line.14"></a>
+<span class="sourceLineNo">015</span>        assertEquals(object == new Object(), __);<a name="line.15"></a>
+<span class="sourceLineNo">016</span>    }<a name="line.16"></a>
+<span class="sourceLineNo">017</span><a name="line.17"></a>
+<span class="sourceLineNo">018</span>    @Koan<a name="line.18"></a>
+<span class="sourceLineNo">019</span>    public void equalsMethodByDefaultTestsIfTwoObjectsAreTheSame() {<a name="line.19"></a>
+<span class="sourceLineNo">020</span>        Object object = new Object();<a name="line.20"></a>
+<span class="sourceLineNo">021</span>        assertEquals(object.equals(object), __);<a name="line.21"></a>
+<span class="sourceLineNo">022</span>        assertEquals(object.equals(new Object()), __);<a name="line.22"></a>
+<span class="sourceLineNo">023</span>    }<a name="line.23"></a>
+<span class="sourceLineNo">024</span><a name="line.24"></a>
+<span class="sourceLineNo">025</span>    @Koan<a name="line.25"></a>
+<span class="sourceLineNo">026</span>    public void equalsMethodCanBeChangedBySubclassesToTestsIfTwoObjectsAreEqual() {<a name="line.26"></a>
+<span class="sourceLineNo">027</span>        Object object = new Integer(1);<a name="line.27"></a>
+<span class="sourceLineNo">028</span>        assertEquals(object.equals(object), __);<a name="line.28"></a>
+<span class="sourceLineNo">029</span>        assertEquals(object.equals(new Integer(1)), __);<a name="line.29"></a>
+<span class="sourceLineNo">030</span>        // Note: This means that for the class 'Object' there is no difference between 'equal' and 'same'<a name="line.30"></a>
+<span class="sourceLineNo">031</span>        // but for the class 'Integer' there is difference - see below<a name="line.31"></a>
+<span class="sourceLineNo">032</span>    }<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>    @Koan<a name="line.34"></a>
+<span class="sourceLineNo">035</span>    public void equalsMethodCanBeChangedBySubclassesToTestsIfTwoObjectsAreEqualExample() {<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        Integer value1 = new Integer(4);<a name="line.36"></a>
+<span class="sourceLineNo">037</span>        Integer value2 = new Integer(2 + 2);<a name="line.37"></a>
+<span class="sourceLineNo">038</span>        assertEquals(value1.equals(value2), __);<a name="line.38"></a>
+<span class="sourceLineNo">039</span>        assertEquals(value1, __);<a name="line.39"></a>
+<span class="sourceLineNo">040</span>    }<a name="line.40"></a>
+<span class="sourceLineNo">041</span><a name="line.41"></a>
+<span class="sourceLineNo">042</span>    @Koan<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    public void objectsNeverEqualNull() {<a name="line.43"></a>
+<span class="sourceLineNo">044</span>        assertEquals(new Object().equals(null), __);<a name="line.44"></a>
+<span class="sourceLineNo">045</span>    }<a name="line.45"></a>
+<span class="sourceLineNo">046</span><a name="line.46"></a>
+<span class="sourceLineNo">047</span>    @Koan<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    public void objectsEqualThemselves() {<a name="line.48"></a>
+<span class="sourceLineNo">049</span>        Object obj = new Object();<a name="line.49"></a>
+<span class="sourceLineNo">050</span>        assertEquals(obj.equals(obj), __);<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    }<a name="line.51"></a>
+<span class="sourceLineNo">052</span>}<a name="line.52"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>

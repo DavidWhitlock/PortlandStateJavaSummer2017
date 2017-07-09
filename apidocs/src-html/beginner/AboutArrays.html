@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package beginner;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import com.sandwich.koan.Koan;<a name="line.3"></a>
+<span class="sourceLineNo">004</span><a name="line.4"></a>
+<span class="sourceLineNo">005</span>import java.util.Arrays;<a name="line.5"></a>
+<span class="sourceLineNo">006</span><a name="line.6"></a>
+<span class="sourceLineNo">007</span>import static com.sandwich.koan.constant.KoanConstants.__;<a name="line.7"></a>
+<span class="sourceLineNo">008</span>import static com.sandwich.util.Assert.assertEquals;<a name="line.8"></a>
+<span class="sourceLineNo">009</span><a name="line.9"></a>
+<span class="sourceLineNo">010</span>public class AboutArrays {<a name="line.10"></a>
+<span class="sourceLineNo">011</span><a name="line.11"></a>
+<span class="sourceLineNo">012</span>    @Koan<a name="line.12"></a>
+<span class="sourceLineNo">013</span>    public void arraysDoNotConsiderElementsWhenEvaluatingEquality() {<a name="line.13"></a>
+<span class="sourceLineNo">014</span>        // arrays utilize default object equality (A == {1} B == {1}, though A<a name="line.14"></a>
+<span class="sourceLineNo">015</span>        // and B contain the same thing, the container is not the same<a name="line.15"></a>
+<span class="sourceLineNo">016</span>        // referenced array instance...<a name="line.16"></a>
+<span class="sourceLineNo">017</span>        assertEquals(new int[]{1}.equals(new int[]{1}), __);<a name="line.17"></a>
+<span class="sourceLineNo">018</span>    }<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>    @Koan<a name="line.20"></a>
+<span class="sourceLineNo">021</span>    public void cloneEqualityIsNotRespected() { //!<a name="line.21"></a>
+<span class="sourceLineNo">022</span>        int[] original = new int[]{1};<a name="line.22"></a>
+<span class="sourceLineNo">023</span>        assertEquals(original.equals(original.clone()), __);<a name="line.23"></a>
+<span class="sourceLineNo">024</span>    }<a name="line.24"></a>
+<span class="sourceLineNo">025</span><a name="line.25"></a>
+<span class="sourceLineNo">026</span>    @Koan<a name="line.26"></a>
+<span class="sourceLineNo">027</span>    public void anArraysHashCodeMethodDoesNotConsiderElements() {<a name="line.27"></a>
+<span class="sourceLineNo">028</span>        int[] array0 = new int[]{0};<a name="line.28"></a>
+<span class="sourceLineNo">029</span>        int[] array1 = new int[]{0};<a name="line.29"></a>
+<span class="sourceLineNo">030</span>        assertEquals(Integer.valueOf(array0.hashCode()).equals(array1.hashCode()), __); // not equal!<a name="line.30"></a>
+<span class="sourceLineNo">031</span>        // TODO: ponder the consequences when arrays are used in Hash Collection implementations.<a name="line.31"></a>
+<span class="sourceLineNo">032</span>    }<a name="line.32"></a>
+<span class="sourceLineNo">033</span><a name="line.33"></a>
+<span class="sourceLineNo">034</span>    @Koan<a name="line.34"></a>
+<span class="sourceLineNo">035</span>    public void arraysHelperClassEqualsMethodConsidersElementsWhenDeterminingEquality() {<a name="line.35"></a>
+<span class="sourceLineNo">036</span>        int[] array0 = new int[]{0};<a name="line.36"></a>
+<span class="sourceLineNo">037</span>        int[] array1 = new int[]{0};<a name="line.37"></a>
+<span class="sourceLineNo">038</span>        assertEquals(Arrays.equals(array0, array1), __);    // whew - what most people assume<a name="line.38"></a>
+<span class="sourceLineNo">039</span>        // about equals in regard to arrays! (logical equality)<a name="line.39"></a>
+<span class="sourceLineNo">040</span>    }<a name="line.40"></a>
+<span class="sourceLineNo">041</span><a name="line.41"></a>
+<span class="sourceLineNo">042</span>    @Koan<a name="line.42"></a>
+<span class="sourceLineNo">043</span>    public void arraysHelperClassHashCodeMethodConsidersElementsWhenDeterminingHashCode() {<a name="line.43"></a>
+<span class="sourceLineNo">044</span>        int[] array0 = new int[]{0};<a name="line.44"></a>
+<span class="sourceLineNo">045</span>        int[] array1 = new int[]{0};<a name="line.45"></a>
+<span class="sourceLineNo">046</span>        // whew - what most people assume about hashCode in regard to arrays!<a name="line.46"></a>
+<span class="sourceLineNo">047</span>        assertEquals(Integer.valueOf(Arrays.hashCode(array0)).equals(Arrays.hashCode(array1)), __);<a name="line.47"></a>
+<span class="sourceLineNo">048</span>    }<a name="line.48"></a>
+<span class="sourceLineNo">049</span><a name="line.49"></a>
+<span class="sourceLineNo">050</span>    @Koan<a name="line.50"></a>
+<span class="sourceLineNo">051</span>    public void arraysAreMutable() {<a name="line.51"></a>
+<span class="sourceLineNo">052</span>        final boolean[] oneBoolean = new boolean[]{false};<a name="line.52"></a>
+<span class="sourceLineNo">053</span>        oneBoolean[0] = true;<a name="line.53"></a>
+<span class="sourceLineNo">054</span>        assertEquals(oneBoolean[0], __);<a name="line.54"></a>
+<span class="sourceLineNo">055</span>    }<a name="line.55"></a>
+<span class="sourceLineNo">056</span><a name="line.56"></a>
+<span class="sourceLineNo">057</span>    @Koan<a name="line.57"></a>
+<span class="sourceLineNo">058</span>    public void arraysAreIndexedAtZero() {<a name="line.58"></a>
+<span class="sourceLineNo">059</span>        int[] integers = new int[]{1, 2};<a name="line.59"></a>
+<span class="sourceLineNo">060</span>        assertEquals(integers[0], __);<a name="line.60"></a>
+<span class="sourceLineNo">061</span>        assertEquals(integers[1], __);<a name="line.61"></a>
+<span class="sourceLineNo">062</span>    }<a name="line.62"></a>
+<span class="sourceLineNo">063</span><a name="line.63"></a>
+<span class="sourceLineNo">064</span>    @Koan<a name="line.64"></a>
+<span class="sourceLineNo">065</span>    public void arrayIndexOutOfBounds() {<a name="line.65"></a>
+<span class="sourceLineNo">066</span>        int[] array = new int[]{1};<a name="line.66"></a>
+<span class="sourceLineNo">067</span>        @SuppressWarnings("unused")<a name="line.67"></a>
+<span class="sourceLineNo">068</span>        int meh = array[1]; // remember 0 based indexes, 1 is the 2nd element (which doesn't exist)<a name="line.68"></a>
+<span class="sourceLineNo">069</span>    }<a name="line.69"></a>
+<span class="sourceLineNo">070</span><a name="line.70"></a>
+<span class="sourceLineNo">071</span>    @Koan<a name="line.71"></a>
+<span class="sourceLineNo">072</span>    public void arrayLengthCanBeChecked() {<a name="line.72"></a>
+<span class="sourceLineNo">073</span>        assertEquals(new int[1].length, __);<a name="line.73"></a>
+<span class="sourceLineNo">074</span>    }<a name="line.74"></a>
+<span class="sourceLineNo">075</span><a name="line.75"></a>
+<span class="sourceLineNo">076</span>}<a name="line.76"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</body>
+</html>
