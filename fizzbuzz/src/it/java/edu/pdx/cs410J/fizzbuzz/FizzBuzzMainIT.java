@@ -8,15 +8,15 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * An integration test for the {@link Project1} main class.
+ * An integration test for the {@link FizzBuzzMain} main class.
  */
-public class Project1IT extends InvokeMainTestCase {
+public class FizzBuzzMainIT extends InvokeMainTestCase {
 
     /**
-     * Invokes the main method of {@link Project1} with the given arguments.
+     * Invokes the main method of {@link FizzBuzzMain} with the given arguments.
      */
     private MainMethodResult invokeMain(String... args) {
-        return invokeMain( Project1.class, args );
+        return invokeMain( FizzBuzzMain.class, args );
     }
 
   /**
