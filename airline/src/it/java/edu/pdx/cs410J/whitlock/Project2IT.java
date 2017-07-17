@@ -58,7 +58,7 @@ public class Project2IT extends InvokeMainTestCase {
 
     MainMethodResult result =
       invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
-        "123", "PDX", "7/16/2017 15:00", "LAX", "7/16/2017", "18:00");
+        "123", "PDX", "7/16/2017", "15:00", "LAX", "7/16/2017", "18:00");
     assertThat(result.getExitCode(), equalTo(0));
 
     String fileContents = readFile(airlineFile);
@@ -71,7 +71,7 @@ public class Project2IT extends InvokeMainTestCase {
 
     MainMethodResult result =
       invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
-        "234", "PDX", "7/17/2017 15:00", "LAX", "7/17/2017", "18:00");
+        "234", "PDX", "7/17/2017", "15:00", "LAX", "7/17/2017", "18:00");
     assertThat(result.getExitCode(), equalTo(0));
 
     String fileContents = readFile(airlineFile);
