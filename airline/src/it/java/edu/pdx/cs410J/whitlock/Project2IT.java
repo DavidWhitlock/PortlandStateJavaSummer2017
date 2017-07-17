@@ -56,8 +56,10 @@ public class Project2IT extends InvokeMainTestCase {
   public void test1CreateNewAirlineFileWhenFileDoesNotExist() throws FileNotFoundException {
     assertThat(airlineFile.exists(), equalTo(false));
 
-    invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
-      "123", "PDX", "7/16/2017 15:00", "LAX", "7/16/2017", "18:00");
+    MainMethodResult result =
+      invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
+        "123", "PDX", "7/16/2017 15:00", "LAX", "7/16/2017", "18:00");
+    assertThat(result.getExitCode(), equalTo(0));
 
     String fileContents = readFile(airlineFile);
     assertThat(fileContents, containsString("123"));
@@ -67,8 +69,10 @@ public class Project2IT extends InvokeMainTestCase {
   public void test2AddFlightToExistingAirlineFile() throws FileNotFoundException {
     assertThat(airlineFile.exists(), equalTo(true));
 
-    invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
-      "234", "PDX", "7/17/2017 15:00", "LAX", "7/17/2017", "18:00");
+    MainMethodResult result =
+      invokeProject2("-textFile", airlineFile.getAbsolutePath(), "MyAirline",
+        "234", "PDX", "7/17/2017 15:00", "LAX", "7/17/2017", "18:00");
+    assertThat(result.getExitCode(), equalTo(0));
 
     String fileContents = readFile(airlineFile);
     assertThat(fileContents, containsString("123"));

@@ -30,6 +30,8 @@ public class Project2 {
 
     TextDumper dumper = new TextDumper(new PrintWriter(new FileWriter(textFile)));
     dumper.dump(airline);
+
+    System.exit(0);
   }
 
 }
