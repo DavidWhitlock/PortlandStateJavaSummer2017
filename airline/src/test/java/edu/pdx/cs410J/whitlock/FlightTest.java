@@ -12,19 +12,19 @@ public class FlightTest {
   
   @Test(expected = UnsupportedOperationException.class)
   public void getArrivalStringNeedsToBeImplemented() {
-    Flight flight = new Flight();
+    Flight flight = new Flight(42);
     flight.getArrivalString();
   }
 
   @Test
   public void initiallyAllFlightsHaveTheSameNumber() {
-    Flight flight = new Flight();
+    Flight flight = new Flight(42);
     assertThat(flight.getNumber(), equalTo(42));
   }
 
   @Test
   public void forProject1ItIsOkayIfGetDepartureTimeReturnsNull() {
-    Flight flight = new Flight();
+    Flight flight = new Flight(42);
     assertThat(flight.getDeparture(), is(nullValue()));
   }
   

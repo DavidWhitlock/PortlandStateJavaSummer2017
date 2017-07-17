@@ -1,13 +1,8 @@
 package edu.pdx.cs410J.whitlock;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import edu.pdx.cs410J.ParserException;
+
+import java.io.*;
 
 /**
  * A very dump implementation of Project 2 to make the integration tests
@@ -16,34 +11,25 @@ import java.util.stream.Collectors;
  */
 public class Project2 {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, ParserException {
     String textFileName = args[1];
     String flightNumber = args[3];
 
     File textFile = new File(textFileName);
 
-    List<String> flightNumbers;  // This is like your Airline
+    Airline airline;
     if (textFile.exists()) {
-      flightNumbers = parseFlightNumbersFromTextFile(textFile);
+      TextParser parser = new TextParser(new FileReader(textFile));
+      airline = parser.parse();
 
     } else {
-      // This is like "creating a new airline"
-      flightNumbers = new ArrayList<>();
+      airline = new Airline();
     }
 
-    flightNumbers.add(flightNumber);
-    dumpFlightNumbersToTextFile(flightNumbers, textFile);
+    airline.addFlight(new Flight(Integer.parseInt(flightNumber)));
+
+    TextDumper dumper = new TextDumper(new PrintWriter(new FileWriter(textFile)));
+    dumper.dump(airline);
   }
 
-  private static List<String> parseFlightNumbersFromTextFile(File textFile) throws IOException {
-    // This is similar to what your TextParser does
-    return Files.lines(textFile.toPath()).collect(Collectors.toList());
-  }
-
-  private static void dumpFlightNumbersToTextFile(List<String> flightNumber, File textFile) throws IOException {
-    // This is similar to what your TextDumper does
-    PrintWriter pw = new PrintWriter(new FileWriter(textFile));
-    pw.println(flightNumber);
-    pw.flush();
-  }
 }

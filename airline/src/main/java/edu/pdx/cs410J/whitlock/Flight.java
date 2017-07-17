@@ -3,9 +3,16 @@ package edu.pdx.cs410J.whitlock;
 import edu.pdx.cs410J.AbstractFlight;
 
 public class Flight extends AbstractFlight {
+
+  private final int number;
+
+  public Flight(int flightNumber) {
+    this.number = flightNumber;
+  }
+
   @Override
   public int getNumber() {
-    return 42;
+    return number;
   }
 
   @Override
