@@ -21,6 +21,7 @@
     <module>koans</module>
     <module>fizzbuzz</module>
     <module>airline-web</module>
+    <module>airline-gwt</module>
   </modules>
 
   <inceptionYear>2017</inceptionYear>
