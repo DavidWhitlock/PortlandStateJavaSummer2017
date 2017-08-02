@@ -70,7 +70,7 @@ public class Project4 {
                 usage("Missing destination");
 
             } else if (flightNumberAsString == null) {
-                String prettyAirline = client.getFlightsBetween(source, destination);
+                String prettyAirline = client.getFlightsBetween(airlineName, source, destination);
                 System.out.println(prettyAirline);
 
             } else {

@@ -8,6 +8,8 @@ import org.junit.runners.MethodSorters;
 import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -30,4 +32,23 @@ public class Project4IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(Project4.class, HOSTNAME, PORT, "My Airline", "PDX", "LAX", "123");
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
     }
+
+    @Test
+    public void test2AddMoreFlights() {
+        MainMethodResult result;
+        result = invokeMain(Project4.class, HOSTNAME, PORT, "My Airline", "PDX", "LAS", "234");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+        result = invokeMain(Project4.class, HOSTNAME, PORT, "My Airline", "PDX", "LAX", "345");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+
+        result = invokeMain(Project4.class, HOSTNAME, PORT, "My Airline", "PDX", "LAX");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+
+        String pretty = result.getTextWrittenToStandardOut();
+
+        assertThat(pretty, containsString("123"));
+        assertThat(pretty, containsString("345"));
+        assertThat(pretty, not(containsString("LAS")));
+    }
+
 }

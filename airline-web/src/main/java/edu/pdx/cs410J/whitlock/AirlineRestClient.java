@@ -33,8 +33,8 @@ public class AirlineRestClient extends HttpRequestHelper
     /**
      * Returns the value for the given key
      */
-    public String getFlightsBetween(String source, String destination) throws IOException {
-      Response response = get(this.url, "src", source, "dest", destination);
+    public String getFlightsBetween(String airlineName, String source, String destination) throws IOException {
+      Response response = get(this.url, "name", airlineName, "src", source, "dest", destination);
       throwExceptionIfNotOkayHttpStatus(response);
       return response.getContent();
     }

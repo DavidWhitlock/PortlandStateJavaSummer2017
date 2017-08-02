@@ -22,4 +22,9 @@ public class Flight {
   public int getNumber() {
     return number;
   }
+
+  @Override
+  public String toString() {
+    return "Flight " + number + " from " + source + " to " + destination;
+  }
 }

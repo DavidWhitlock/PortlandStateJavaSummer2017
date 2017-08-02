@@ -27,7 +27,43 @@ public class AirlineServlet extends HttpServlet {
   {
       response.setContentType( "text/plain" );
 
-      String key = getParameter( "key", request );
+    String airlineName = getParameter( "name", request );
+    if (airlineName == null) {
+        missingRequiredParameter(response, "name");
+        return;
+    }
+
+    String source = getParameter( "src", request );
+    if ( source == null) {
+        missingRequiredParameter( response, "src" );
+        return;
+    }
+
+    String destination = getParameter( "dest", request );
+    if ( destination == null) {
+        missingRequiredParameter( response, "dest" );
+        return;
+    }
+
+    if (!createOrValidateAirlineWithName(airlineName)) {
+      nonMatchingAirlineName(airlineName, response);
+      return;
+    }
+
+    String pretty = prettyPrintFlightsBetween(source, destination);
+    response.getWriter().println(pretty);
+    response.setStatus( HttpServletResponse.SC_OK);
+
+  }
+
+  private String prettyPrintFlightsBetween(String source, String destination) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Flights between ").append(source).append(" and ").append(destination).append(":\n");
+    this.airline.getFlights().stream()
+      .filter(f -> f.getSource().equals(source) && f.getDestination().equals(destination))
+      .forEach(flight -> sb.append("  ").append(flight).append("\n"));
+
+    return sb.toString();
   }
 
   /**
