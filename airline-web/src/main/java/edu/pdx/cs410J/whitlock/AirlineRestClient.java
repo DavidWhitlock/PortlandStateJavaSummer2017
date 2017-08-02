@@ -4,7 +4,6 @@ import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
-import java.util.Map;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
@@ -32,25 +31,20 @@ public class AirlineRestClient extends HttpRequestHelper
     }
 
     /**
-     * Returns all keys and values from the server
-     */
-    public Map<String, String> getAllKeysAndValues() throws IOException {
-      Response response = get(this.url);
-      return Messages.parseKeyValueMap(response.getContent());
-    }
-
-    /**
      * Returns the value for the given key
      */
-    public String getValue(String key) throws IOException {
-      Response response = get(this.url, "key", key);
+    public String getFlightsBetween(String source, String destination) throws IOException {
+      Response response = get(this.url, "src", source, "dest", destination);
       throwExceptionIfNotOkayHttpStatus(response);
-      String content = response.getContent();
-      return Messages.parseKeyValuePair(content).getValue();
+      return response.getContent();
     }
 
-    public void addKeyValuePair(String key, String value) throws IOException {
-      Response response = postToMyURL("key", key, "value", value);
+    public void addFlight(String airlineName, Flight flight) throws IOException {
+      Response response =
+        postToMyURL("name", airlineName,
+                    "src", flight.getSource(),
+                    "dest", flight.getDestination(),
+                    "number", String.valueOf(flight.getNumber()));
       throwExceptionIfNotOkayHttpStatus(response);
     }
 
@@ -59,22 +53,23 @@ public class AirlineRestClient extends HttpRequestHelper
       return post(this.url, keysAndValues);
     }
 
-    public void removeAllMappings() throws IOException {
+    public void removeAirline() throws IOException {
       Response response = delete(this.url);
       throwExceptionIfNotOkayHttpStatus(response);
     }
 
     private Response throwExceptionIfNotOkayHttpStatus(Response response) {
       int code = response.getCode();
+      String message = response.getContent();
       if (code != HTTP_OK) {
-        throw new AppointmentBookRestException(code);
+        throw new AppointmentBookRestException(code, message);
       }
       return response;
     }
 
     private class AppointmentBookRestException extends RuntimeException {
-      public AppointmentBookRestException(int httpStatusCode) {
-        super("Got an HTTP Status Code of " + httpStatusCode);
+      public AppointmentBookRestException(int httpStatusCode, String message) {
+        super("Got an HTTP Status Code of " + httpStatusCode + ": " + message);
       }
     }
 }

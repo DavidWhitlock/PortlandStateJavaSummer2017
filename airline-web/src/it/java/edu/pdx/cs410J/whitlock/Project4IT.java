@@ -8,8 +8,7 @@ import org.junit.runners.MethodSorters;
 import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * An integration test for {@link Project4} that invokes its main method with
@@ -21,51 +20,14 @@ public class Project4IT extends InvokeMainTestCase {
     private static final String PORT = System.getProperty("http.port", "8080");
 
     @Test
-    public void test0RemoveAllMappings() throws IOException {
+    public void test0RemoveAirline() throws IOException {
       AirlineRestClient client = new AirlineRestClient(HOSTNAME, Integer.parseInt(PORT));
-        client.removeAllMappings();
+        client.removeAirline();
     }
 
     @Test
-    public void test1NoCommandLineArguments() {
-        MainMethodResult result = invokeMain( Project4.class );
-        assertThat(result.getExitCode(), equalTo(1));
-        assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
-    }
-
-    @Test
-    public void test2EmptyServer() {
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT );
+    public void test1AddOneFlight() {
+        MainMethodResult result = invokeMain(Project4.class, HOSTNAME, PORT, "My Airline", "PDX", "LAX", "123");
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.formatMappingCount(0)));
-    }
-
-    @Test
-    public void test3NoValues() {
-        String key = "KEY";
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, key );
-        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.formatKeyValuePair(key, null)));
-    }
-
-    @Test
-    public void test4AddValue() {
-        String key = "KEY";
-        String value = "VALUE";
-
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, key, value );
-        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.mappedKeyValue(key, value)));
-
-        result = invokeMain( Project4.class, HOSTNAME, PORT, key );
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.formatKeyValuePair(key, value)));
-
-        result = invokeMain( Project4.class, HOSTNAME, PORT );
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.formatKeyValuePair(key, value)));
     }
 }

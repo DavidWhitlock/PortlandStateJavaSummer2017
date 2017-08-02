@@ -2,9 +2,6 @@ package edu.pdx.cs410J.whitlock;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Map;
 
 /**
  * The main class that parses the command line and communicates with the
@@ -17,8 +14,10 @@ public class Project4 {
     public static void main(String... args) {
         String hostName = null;
         String portString = null;
-        String key = null;
-        String value = null;
+        String airlineName = null;
+        String source = null;
+        String destination = null;
+        String flightNumberAsString = null;
 
         for (String arg : args) {
             if (hostName == null) {
@@ -27,11 +26,17 @@ public class Project4 {
             } else if ( portString == null) {
                 portString = arg;
 
-            } else if (key == null) {
-                key = arg;
+            } else if (airlineName == null) {
+                airlineName = arg;
 
-            } else if (value == null) {
-                value = arg;
+            } else if (source == null) {
+                source = arg;
+
+            } else if (destination == null) {
+                destination = arg;
+
+            } else if (flightNumberAsString == null) {
+                flightNumberAsString = arg;
 
             } else {
                 usage("Extraneous command line argument: " + arg);
@@ -58,29 +63,33 @@ public class Project4 {
 
         String message;
         try {
-            if (key == null) {
-                // Print all key/value pairs
-                Map<String, String> keysAndValues = client.getAllKeysAndValues();
-                StringWriter sw = new StringWriter();
-                Messages.formatKeyValueMap(new PrintWriter(sw, true), keysAndValues);
-                message = sw.toString();
+            if (source == null) {
+                usage("Missing flight source");
 
-            } else if (value == null) {
-                // Print all values of key
-                message = Messages.formatKeyValuePair(key, client.getValue(key));
+            } else if (destination == null) {
+                usage("Missing destination");
+
+            } else if (flightNumberAsString == null) {
+                String prettyAirline = client.getFlightsBetween(source, destination);
+                System.out.println(prettyAirline);
 
             } else {
-                // Post the key/value pair
-                client.addKeyValuePair(key, value);
-                message = Messages.mappedKeyValue(key, value);
+                int flightNumber;
+                try {
+                    flightNumber = Integer.parseInt(flightNumberAsString);
+
+                } catch (NumberFormatException ex) {
+                    usage("Invalid flight number: " + flightNumberAsString);
+                    return;
+                }
+                Flight flight = new Flight(source, destination, flightNumber);
+                client.addFlight(airlineName, flight);
             }
 
         } catch ( IOException ex ) {
             error("While contacting server: " + ex);
             return;
         }
-
-        System.out.println(message);
 
         System.exit(0);
     }
@@ -102,15 +111,16 @@ public class Project4 {
         PrintStream err = System.err;
         err.println("** " + message);
         err.println();
-        err.println("usage: java Project4 host port [key] [value]");
-        err.println("  host    Host of web server");
-        err.println("  port    Port of web server");
-        err.println("  key     Key to query");
-        err.println("  value   Value to add to server");
+        err.println("usage: java Project4 host port source destination [number]");
+        err.println("  host          Host of web server");
+        err.println("  port          Port of web server");
+        err.println("  source        Departure airport code");
+        err.println("  destination   Arrival airport code");
+        err.println("  number        Flight number");
         err.println();
-        err.println("This simple program posts key/value pairs to the server");
-        err.println("If no value is specified, then all values are printed");
-        err.println("If no key is specified, all key/value pairs are printed");
+        err.println("This is a simple implementation of some of the Project 4 functionality");
+        err.println("If no flight number is specified, then the flights from the source to the destination are printed");
+        err.println("If a flight number is specified, then a new flight is added to an airline in the server");
         err.println();
 
         System.exit(1);
