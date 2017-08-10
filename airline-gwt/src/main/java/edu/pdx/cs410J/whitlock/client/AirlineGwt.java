@@ -7,6 +7,8 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.UmbrellaException;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -18,29 +20,28 @@ import java.util.logging.Logger;
 /**
  * A basic GWT class that makes sure that we can send an airline back from the server
  */
-public class AirlineGwt implements EntryPoint {
+public class AirlineGwt extends Composite implements EntryPoint {
+
+  /** The weirdo interface required by UI Binder */
+  public interface Binder extends UiBinder<VerticalPanel, AirlineGwt> {}
+
+  private static final Binder uiBinder = GWT.create(Binder.class);
 
   private final Alerter alerter;
   private final AirlineServiceAsync airlineService;
   private final Logger logger;
 
+  @UiField
   @VisibleForTesting
   Button showAirlineButton;
 
+  @UiField
   @VisibleForTesting
-  Button showUndeclaredExceptionButton;
+  TextBox airlineName;
 
+  @UiField
   @VisibleForTesting
-  Button showDeclaredExceptionButton;
-
-  @VisibleForTesting
-  Button showClientSideExceptionButton;
-
-  @VisibleForTesting
-  final TextBox airlineName = new TextBox();
-
-  @VisibleForTesting
-  final TextArea airlinePrettyText = new TextArea();
+  TextArea airlinePrettyText;
 
   public AirlineGwt() {
     this(new Alerter() {
@@ -86,98 +87,11 @@ public class AirlineGwt implements EntryPoint {
     return throwable;
   }
 
-  private void addWidgets(VerticalPanel panel) {
-    panel.add(airlineName);
-
-    airlinePrettyText.setCharacterWidth(80);
-    airlinePrettyText.setVisibleLines(10);
-
-
-    showAirlineButton = new Button("Show Airline to the class on Wednesday");
+  private void addEventHandlers() {
     showAirlineButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
         showAirline(airlineName.getText(), airlinePrettyText);
-      }
-    });
-
-    showUndeclaredExceptionButton = new Button("Show undeclared exception");
-    showUndeclaredExceptionButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent clickEvent) {
-        showUndeclaredException();
-      }
-    });
-
-    showDeclaredExceptionButton = new Button("Show declared exception");
-    showDeclaredExceptionButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent clickEvent) {
-        showDeclaredException();
-      }
-    });
-
-    showClientSideExceptionButton= new Button("Show client-side exception");
-    showClientSideExceptionButton.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent clickEvent) {
-        throwClientSideException();
-      }
-    });
-
-    panel.add(showAirlineButton);
-    panel.add(showUndeclaredExceptionButton);
-    panel.add(showDeclaredExceptionButton);
-    panel.add(showClientSideExceptionButton);
-
-
-    final TextBox text = new TextBox();
-    text.setVisibleLength(10);
-    panel.add(text);
-
-    Button showText = new Button("Show Text");
-    showText.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent clickEvent) {
-        alerter.alert("The text box contained: " + text.getText());
-      }
-    });
-    panel.add(showText);
-
-    panel.add(airlinePrettyText);
-  }
-
-  private void throwClientSideException() {
-    logger.info("About to throw a client-side exception");
-    throw new IllegalStateException("Expected exception on the client side");
-  }
-
-  private void showUndeclaredException() {
-    logger.info("Calling throwUndeclaredException");
-    airlineService.throwUndeclaredException(new AsyncCallback<Void>() {
-      @Override
-      public void onFailure(Throwable ex) {
-        alertOnException(ex);
-      }
-
-      @Override
-      public void onSuccess(Void aVoid) {
-        alerter.alert("This shouldn't happen");
-      }
-    });
-  }
-
-  private void showDeclaredException() {
-    logger.info("Calling throwDeclaredException");
-    airlineService.throwDeclaredException(new AsyncCallback<Void>() {
-      @Override
-      public void onFailure(Throwable ex) {
-        alertOnException(ex);
-      }
-
-      @Override
-      public void onSuccess(Void aVoid) {
-        alerter.alert("This shouldn't happen");
       }
     });
   }
@@ -227,10 +141,8 @@ public class AirlineGwt implements EntryPoint {
 
   private void setupUI() {
     RootPanel rootPanel = RootPanel.get();
-    VerticalPanel panel = new VerticalPanel();
-    rootPanel.add(panel);
-
-    addWidgets(panel);
+    rootPanel.add(uiBinder.createAndBindUi(this));
+    addEventHandlers();
   }
 
   private void setUpUncaughtExceptionHandler() {

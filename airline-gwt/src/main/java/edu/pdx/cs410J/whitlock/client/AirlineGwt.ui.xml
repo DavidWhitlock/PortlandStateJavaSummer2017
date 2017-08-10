@@ -1,0 +1,19 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+    <g:VerticalPanel spacing="2">
+      <g:cell>
+        <g:Label text="My Airline GWT Application"/>
+      </g:cell>
+      <g:cell horizontalAlignment="ALIGN_LEFT">
+          <g:TextBox ui:field="airlineName"/>
+      </g:cell>
+        <g:cell horizontalAlignment="ALIGN_LEFT">
+            <g:Button text="Show Airline to the class on Wednesday" ui:field="showAirlineButton"/>
+        </g:cell>
+        <g:cell horizontalAlignment="ALIGN_LEFT">
+            <g:TextArea characterWidth="80" visibleLines="10" ui:field="airlinePrettyText"/>
+        </g:cell>
+    </g:VerticalPanel>
+
+</ui:UiBinder>
