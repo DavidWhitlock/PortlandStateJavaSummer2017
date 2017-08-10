@@ -6,6 +6,13 @@ import java.util.Date;
 
 public class Flight extends AbstractFlight
 {
+
+  private int number = 42;
+  private String source = "PDX";
+  private Date departure = new Date();
+  private String destination = "MHT";
+  private Date arrival = new Date();
+
   /**
    * In order for GWT to serialize this class (so that it can be sent between
    * the client and the server), it must have a zero-argument constructor.
@@ -16,17 +23,17 @@ public class Flight extends AbstractFlight
 
   @Override
   public int getNumber() {
-    return 42;
+    return number;
   }
 
   @Override
   public String getSource() {
-    return "PDX";
+    return source;
   }
 
   @Override
   public Date getDeparture() {
-    return new Date();
+    return departure;
   }
 
   public String getDepartureString() {
@@ -34,11 +41,11 @@ public class Flight extends AbstractFlight
   }
 
   public String getDestination() {
-    return "MHT";
+    return destination;
   }
 
   public Date getArrival() {
-    return new Date();
+    return arrival;
   }
 
   public String getArrivalString() {
