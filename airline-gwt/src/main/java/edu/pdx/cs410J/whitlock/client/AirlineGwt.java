@@ -11,7 +11,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 
-import java.util.Collection;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -189,15 +189,21 @@ public class AirlineGwt implements EntryPoint {
 
       @Override
       public void onSuccess(Airline airline) {
-        StringBuilder sb = new StringBuilder(airline.toString());
-        Collection<Flight> flights = airline.getFlights();
-        for (Flight flight : flights) {
-          sb.append(flight);
-          sb.append("\n");
-        }
-        airlinePrettyText.setText(sb.toString());
+        prettyPrintAirline(airline, airlinePrettyText);
       }
     });
+  }
+
+  private void prettyPrintAirline(Airline airline, TextArea airlinePrettyText) {
+    PrettyPrinter pretty = new PrettyPrinter();
+    try {
+      pretty.dump(airline);
+
+    } catch (IOException e) {
+      alertOnException(e);
+    }
+
+    airlinePrettyText.setText(pretty.getPrettyText());
   }
 
   @Override
