@@ -11,8 +11,8 @@ import edu.pdx.cs410J.whitlock.client.AirlineService;
 public class AirlineServiceImpl extends RemoteServiceServlet implements AirlineService
 {
   @Override
-  public Airline getAirline() {
-    Airline airline = new Airline();
+  public Airline getAirline(String airlineName) {
+    Airline airline = new Airline(airlineName);
     airline.addFlight(new Flight());
     return airline;
   }

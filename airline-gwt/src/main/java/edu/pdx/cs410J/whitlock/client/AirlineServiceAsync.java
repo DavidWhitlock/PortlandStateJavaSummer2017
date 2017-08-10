@@ -10,7 +10,7 @@ public interface AirlineServiceAsync {
   /**
    * Return an airline created on the server
    */
-  void getAirline(AsyncCallback<Airline> async);
+  void getAirline(String airlineName, AsyncCallback<Airline> async);
 
   /**
    * Always throws an exception so that we can see how to handle uncaught
