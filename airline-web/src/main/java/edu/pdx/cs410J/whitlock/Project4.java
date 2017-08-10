@@ -114,6 +114,7 @@ public class Project4 {
         err.println("usage: java Project4 host port source destination [number]");
         err.println("  host          Host of web server");
         err.println("  port          Port of web server");
+        err.println("  airline       Name of the airline");
         err.println("  source        Departure airport code");
         err.println("  destination   Arrival airport code");
         err.println("  number        Flight number");

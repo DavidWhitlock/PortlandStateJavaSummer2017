@@ -9,11 +9,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.UmbrellaException;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.*;
 
-import java.util.Collection;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,11 +81,19 @@ public class AirlineGwt implements EntryPoint {
   }
 
   private void addWidgets(VerticalPanel panel) {
-    showAirlineButton = new Button("Show Airline");
+    final TextBox airlineName = new TextBox();
+    panel.add(airlineName);
+
+    final TextArea airlinePrettyText = new TextArea();
+    airlinePrettyText.setCharacterWidth(80);
+    airlinePrettyText.setVisibleLines(10);
+
+
+    showAirlineButton = new Button("Show Airline to the class on Wednesday");
     showAirlineButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent clickEvent) {
-        showAirline();
+        showAirline(airlineName.getText(), airlinePrettyText);
       }
     });
 
@@ -119,6 +125,22 @@ public class AirlineGwt implements EntryPoint {
     panel.add(showUndeclaredExceptionButton);
     panel.add(showDeclaredExceptionButton);
     panel.add(showClientSideExceptionButton);
+
+
+    final TextBox text = new TextBox();
+    text.setVisibleLength(10);
+    panel.add(text);
+
+    Button showText = new Button("Show Text");
+    showText.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent clickEvent) {
+        alerter.alert("The text box contained: " + text.getText());
+      }
+    });
+    panel.add(showText);
+
+    panel.add(airlinePrettyText);
   }
 
   private void throwClientSideException() {
@@ -156,9 +178,9 @@ public class AirlineGwt implements EntryPoint {
     });
   }
 
-  private void showAirline() {
+  private void showAirline(String airlineName, final TextArea airlinePrettyText) {
     logger.info("Calling getAirline");
-    airlineService.getAirline(new AsyncCallback<Airline>() {
+    airlineService.getAirline(airlineName, new AsyncCallback<Airline>() {
 
       @Override
       public void onFailure(Throwable ex) {
@@ -167,15 +189,21 @@ public class AirlineGwt implements EntryPoint {
 
       @Override
       public void onSuccess(Airline airline) {
-        StringBuilder sb = new StringBuilder(airline.toString());
-        Collection<Flight> flights = airline.getFlights();
-        for (Flight flight : flights) {
-          sb.append(flight);
-          sb.append("\n");
-        }
-        alerter.alert(sb.toString());
+        prettyPrintAirline(airline, airlinePrettyText);
       }
     });
+  }
+
+  private void prettyPrintAirline(Airline airline, TextArea airlinePrettyText) {
+    PrettyPrinter pretty = new PrettyPrinter();
+    try {
+      pretty.dump(airline);
+
+    } catch (IOException e) {
+      alertOnException(e);
+    }
+
+    airlinePrettyText.setText(pretty.getPrettyText());
   }
 
   @Override

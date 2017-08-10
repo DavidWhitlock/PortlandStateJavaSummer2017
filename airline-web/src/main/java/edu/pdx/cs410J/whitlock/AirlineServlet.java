@@ -14,6 +14,7 @@ import java.io.IOException;
  * of how to use HTTP and Java servlets to store simple key/value pairs.
  */
 public class AirlineServlet extends HttpServlet {
+  static final String SUCCESSFULLY_ADDED_A_FLIGHT = "Successfully added a flight";
   private Airline airline;
 
   /**
@@ -61,7 +62,7 @@ public class AirlineServlet extends HttpServlet {
     sb.append("Flights between ").append(source).append(" and ").append(destination).append(":\n");
     this.airline.getFlights().stream()
       .filter(f -> f.getSource().equals(source) && f.getDestination().equals(destination))
-      .forEach(flight -> sb.append("  ").append(flight).append("\n"));
+      .forEach(f -> sb.append("  ").append(f).append("\n"));
 
     return sb.toString();
   }
@@ -117,6 +118,7 @@ public class AirlineServlet extends HttpServlet {
       Flight flight = new Flight(source, destination, number);
       airline.addFlight(flight);
 
+      response.getWriter().println(SUCCESSFULLY_ADDED_A_FLIGHT);
       response.setStatus( HttpServletResponse.SC_OK);
   }
 

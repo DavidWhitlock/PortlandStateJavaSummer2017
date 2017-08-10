@@ -42,6 +42,8 @@ public class AirlineServletTest {
     assertThat(flight.getSource(), equalTo(source));
     assertThat(flight.getDestination(), equalTo(destination));
     assertThat(flight.getNumber(), equalTo(number));
+
+    verify(response.getWriter()).println(AirlineServlet.SUCCESSFULLY_ADDED_A_FLIGHT);
   }
 
   private HttpServletResponse makeRequestOfServlet(HttpVerb verb, AirlineServlet servlet, String airlineName, String source, String destination, String numberAsString) throws IOException, ServletException {
