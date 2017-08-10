@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.whitlock.client;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import edu.pdx.cs410J.AirlineDumper;
 
@@ -9,7 +10,25 @@ import java.util.Date;
 
 public class PrettyPrinter implements AirlineDumper<Airline> {
 
+  @VisibleForTesting
+  static final String DATE_FORMAT_PATTERN = "MM/dd/yyyy hh:mm a";
+  private final DateFormatter dateFormatter;
   private StringBuilder prettyText = new StringBuilder();
+
+  public PrettyPrinter() {
+    this(new DateFormatter() {
+      @Override
+      public String format(Date date) {
+        DateTimeFormat format = DateTimeFormat.getFormat(DATE_FORMAT_PATTERN);
+        return format.format(date);
+      }
+    });
+  }
+
+  @VisibleForTesting
+  PrettyPrinter(DateFormatter dateFormatter) {
+    this.dateFormatter = dateFormatter;
+  }
 
   @Override
   public void dump(Airline airline) throws IOException {
@@ -32,11 +51,14 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
   }
 
   private String prettyDate(Date date) {
-    DateTimeFormat format = DateTimeFormat.getFormat("MM/dd/yyyy hh:mm a");
-    return format.format(date);
+    return this.dateFormatter.format(date);
   }
 
   public String getPrettyText() {
     return prettyText.toString();
+  }
+
+  interface DateFormatter {
+    String format(Date date);
   }
 }
