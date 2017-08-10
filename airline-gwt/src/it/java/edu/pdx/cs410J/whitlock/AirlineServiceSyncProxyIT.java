@@ -27,7 +27,7 @@ public class AirlineServiceSyncProxyIT extends HttpRequestHelper {
     SyncProxy.setBaseURL(this.webAppUrl + "/" + moduleName + "/");
 
     AirlineService service = SyncProxy.createSync(AirlineService.class);
-    Airline airline = service.getAirline();
+    Airline airline = service.getAirline("test");
     assertEquals("Air CS410J", airline.getName());
     assertEquals(1, airline.getFlights().size());
   }
