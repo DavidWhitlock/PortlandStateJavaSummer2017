@@ -22,13 +22,14 @@ public class AirlineServiceSyncProxyIT extends HttpRequestHelper {
   }
 
   @Test
-  public void canInvokeAirlineServiceWithGwtSyncProxy() {
+  public void gettingAirlineWithNameReturnsAirlineOfThatName() {
     String moduleName = "airline";
     SyncProxy.setBaseURL(this.webAppUrl + "/" + moduleName + "/");
 
     AirlineService service = SyncProxy.createSync(AirlineService.class);
-    Airline airline = service.getAirline("test");
-    assertEquals("Air CS410J", airline.getName());
+    String airlineName = "test";
+    Airline airline = service.getAirline(airlineName);
+    assertEquals(airlineName, airline.getName());
     assertEquals(1, airline.getFlights().size());
   }
 
