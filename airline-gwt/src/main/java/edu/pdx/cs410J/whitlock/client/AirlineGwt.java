@@ -36,6 +36,12 @@ public class AirlineGwt implements EntryPoint {
   @VisibleForTesting
   Button showClientSideExceptionButton;
 
+  @VisibleForTesting
+  final TextBox airlineName = new TextBox();
+
+  @VisibleForTesting
+  final TextArea airlinePrettyText = new TextArea();
+
   public AirlineGwt() {
     this(new Alerter() {
       @Override
@@ -81,10 +87,8 @@ public class AirlineGwt implements EntryPoint {
   }
 
   private void addWidgets(VerticalPanel panel) {
-    final TextBox airlineName = new TextBox();
     panel.add(airlineName);
 
-    final TextArea airlinePrettyText = new TextArea();
     airlinePrettyText.setCharacterWidth(80);
     airlinePrettyText.setVisibleLines(10);
 

@@ -21,16 +21,17 @@ public class AirlineGwtIT extends GWTTestCase {
   }
 
   @Test
-  public void testClickingShowAirlineButtonAlertsWithAirlineInformation() {
-    final CapturingAlerter alerter = new CapturingAlerter();
+  public void testClickingShowAirlineButtonDisplaysPrettyAirline() {
+    final String airlineName = "My Airline";
 
-    final AirlineGwt ui = new AirlineGwt(alerter);
+    final AirlineGwt ui = new AirlineGwt();
     ui.onModuleLoad();
 
     // Wait for UI widgets to be created
     waitBeforeRunning(500, new Runnable() {
       @Override
       public void run() {
+        ui.airlineName.setText(airlineName);
         click(ui.showAirlineButton);
       }
     });
@@ -39,9 +40,9 @@ public class AirlineGwtIT extends GWTTestCase {
     waitBeforeRunning(500, new Runnable() {
       @Override
       public void run() {
-        String message = alerter.getMessage();
-        assertNotNull(message);
-        assertTrue(message, message.contains("Air CS410J with 1 flights"));
+        String pretty = ui.airlinePrettyText.getText();
+        assertNotNull(pretty);
+        assertTrue(pretty, pretty.contains(airlineName));
         finishTest();
       }
     });
